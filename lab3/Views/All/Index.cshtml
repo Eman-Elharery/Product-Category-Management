@@ -1,0 +1,65 @@
+﻿@model lab3.ViewModels.AllVM
+<style>
+    body{
+        background-color: #E9E7E0;
+    }
+</style>
+<div class="container mt-4">
+    <div class="mb-3">
+        <label class="form-label">Select Category</label>
+        <select id="categoryDropDown" class="form-select">
+            <option value="">-- Select Category --</option>
+            @foreach (var dept in Model.Categories)
+            {
+                <option value="@dept.Value">@dept.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Select Product</label>
+        <select id="productDropDown" class="form-select">
+            <option value="">-- Select Product --</option>
+        </select>
+    </div>
+
+    <div id="productTableDiv">
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#categoryDropDown").change(function () {
+                var categoryId = $(this).val();
+                if (categoryId) {
+                    $.get("/All/GetProductsByCategory", { categoryId: categoryId })
+                        .done(function (data) {
+                            var options = '<option value="">-- Select Product --</option>';
+                            data.forEach(function (p) {
+                                options += `<option value="${p.value}">${p.text}</option>`;
+                            });
+                            $("#productDropDown").html(options);
+                            $("#productTableDiv").html("");
+                        });
+                } else {
+                    $("#productDropDown").html('<option value="">-- Select Product --</option>');
+                    $("#productTableDiv").html("");
+                }
+            });
+
+            $("#productDropDown").change(function () {
+                var productId = $(this).val();
+                if (productId) {
+                    $.get("/All/GetProductDetails", { productId: productId })
+                        .done(function (html) {
+                            $("#productTableDiv").html(html);
+                        });
+                } else {
+                    $("#productTableDiv").html("");
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,25 @@
+﻿@model lab3.ViewModels.ProductReadVM
+
+@if (Model != null)
+{
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Count</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.Title</td>
+                <td>@Model.Price</td>
+                <td>@Model.Count</td>
+                <td>@Model.CategoryName</td>
+            </tr>
+        </tbody>
+    </table>
+}

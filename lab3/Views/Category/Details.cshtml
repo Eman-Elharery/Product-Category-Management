@@ -1,0 +1,60 @@
+﻿@model lab3.ViewModels.CategoryReadVM
+
+
+<style>
+    body {
+        background-color: #E9E7E0;
+    }
+
+    .purple-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(111, 66, 193, 0.2);
+    }
+
+        .purple-card .card-header {
+            background-color: #679089;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+    .purple-label {
+        font-weight: bold;
+    }
+
+    .purple-back-btn {
+        background-color: #679089;
+        color: white;
+        border-radius: 8px;
+    }
+
+        .purple-back-btn:hover {
+        background-color: #2C615C;
+            color: white;
+        }
+
+</style>
+<div class="container mt-5">
+    <div class="card purple-card col-md-6 mx-auto">
+
+        <div class="card-header text-center">
+            Category Details
+        </div>
+
+        <div class="card-body">
+
+            <p><span class="purple-label">Name: </span>@Model.Name </p>
+            <p><span class="purple-label">Products Count: </span> @Model.ProductsCount</p>
+            
+            
+            <div class="text-center mt-4">
+                <a class="btn purple-back-btn px-4"
+                   href="~/Category/Index">
+                    Back to List
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,161 @@
+﻿@model List<lab3.ViewModels.ProductReadVM>
+<style>
+
+    *{
+        text-align:center;
+    }
+    body{
+        background-color: #E9E7E0;
+    }
+</style>
+
+@if (TempData["createdProduct"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["createdProduct"]
+          (@TempData["createdProductNO"])
+    </div>
+}
+@if (TempData["EditedProduct"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["EditedProduct"]
+    </div>
+}
+@if (TempData["DeletedProduct"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["DeletedProduct"]
+    </div>
+}
+
+<h1 class="text-center mb-4">
+    All Products
+</h1>
+
+<table class="table table-hover table-bordered">
+    <thead style="background-color:#679089; color:white;">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Count</th>
+            <th scope="col">Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <th scope="row">@product.Id</th>
+                <td>@product.Title</td>
+                <td>@product.Price</td>
+                <td>@product.Count</td>
+                <td>
+                    <a class="btn btn-sm text-white px-4"
+                       style="background-color:#679089;"
+                       href="~/Product/Details/@product.Id">
+                        View Details
+                    </a>
+                    <a class="btn btn-sm text-white px-4"
+                       style="background-color:#A17630;"
+                       href="~/Product/Edit/@product.Id">
+                        Edit
+                    </a>
+                    <a class="btn btn-sm text-white px-4"
+                       style="background-color:#9D4646;"
+                       href="~/Product/Delete/@product.Id"
+                       data-bs-toggle="modal"
+                       data-bs-target="#deleteModal"
+                       data-productid="@product.Id"
+                       data-producttitle="@product.Title">
+                        Delete
+                    </a>
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a class="btn btn-sm text-white px-4"
+   style="background-color:#56743C;"
+   href="~/Product/Create">
+    Add New Product
+</a>
+<a class="btn btn-sm text-white px-4"
+   style=" background-color: #679089;
+            color: white;"
+   href="~/Category/Index">
+    Go to Categoris
+</a>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Product</h5>
+            </div>
+
+            <div class="modal-body">
+                Are you sure you want to delete
+                <strong id="productTitle"></strong> ?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button type="button"
+                        class="btn btn-danger"
+                        style="background-color:#9D4646;"
+                        id="confirmDeleteBtn">
+                    Delete
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        const deleteModal = document.getElementById('deleteModal');
+
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+
+            const button = event.relatedTarget;
+
+            const productId = button.getAttribute('data-productid');
+            const productTitle = button.getAttribute('data-producttitle');
+
+            deleteModal.querySelector('#productTitle').textContent = productTitle;
+
+            const confirmBtn = deleteModal.querySelector('#confirmDeleteBtn');
+
+            confirmBtn.onclick = function () {
+                window.location.href = `/Product/Delete/${productId}`;
+            }
+        });
+    </script>
+}
+
+@if (ViewBag.RecentProducts != null && ((List<lab3.ViewModels.ProductReadVM>)ViewBag.RecentProducts).Any())
+{
+    <hr />
+    <div class="card shadow-sm border-0">
+    <h3 class="mt-5 mb-4">Recently Viewed Products</h3>
+
+    <div class="row justify-content-center">
+        @foreach (var item in (List<lab3.ViewModels.ProductReadVM>)ViewBag.RecentProducts)
+        {
+              <h5>@item.Title</h5> 
+              
+        }
+    </div>
+    </div>
+}

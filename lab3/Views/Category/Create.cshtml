@@ -1,0 +1,69 @@
+﻿@model lab3.ViewModels.CategoryCreateVM
+
+
+
+<style>
+    body {
+        background-color: #E9E7E0;
+    }
+
+    .purple-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(111, 66, 193, 0.2);
+    }
+
+        .purple-card .card-header {
+            background-color: #679089;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+    .purple-label {
+        font-weight: bold;
+    }
+
+    .purple-back-btn {
+        background-color: #679089;
+        color: white;
+        border-radius: 8px;
+    }
+
+</style>
+
+<div class="container mt-5">
+    <div class="card purple-card col-md-6 mx-auto">
+
+        <div class="card-header text-center">
+            Create Category
+        </div>
+
+        <div class="card-body">
+            <form method="post" asp-action="Create">
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <a asp-action="Index" class="btn btn-sm text-white px-4" style="background-color:#A17630;">Cancel</a>
+                <input type="submit" class="btn btn-sm text-white px-4" style="background-color:#679089;" value="Create" />
+            </form>
+
+           
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+
+}
+
+    

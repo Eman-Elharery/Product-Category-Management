@@ -1,0 +1,58 @@
+@using Microsoft.AspNetCore.Identity
+@using lab3.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav ms-auto align-items-center">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var currentUser = await UserManager.GetUserAsync(User);
+        var isAdmin = await UserManager.IsInRoleAsync(currentUser!, "Admin");
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle"></i>
+                @currentUser!.FirstName @currentUser.LastName
+               
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <span class="dropdown-item-text text-muted small">@currentUser.Email</span>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+
+                @if (isAdmin)
+                {
+                    <li>
+                        <a class="dropdown-item" asp-controller="Role" asp-action="Index">
+                            Roles
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                }
+
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                        <button type="submit" class="dropdown-item text-danger">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-controller="Account" asp-action="Login">
+                <i class="bi bi-box-arrow-in-right"></i> Login
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-controller="Account" asp-action="Register">
+                <i class="bi bi-person-plus"></i> Register
+            </a>
+        </li>
+    }
+</ul>
